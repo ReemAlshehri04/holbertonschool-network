@@ -1,0 +1,267 @@
+# What Happens When You Type https://www.google.com in Your Browser and Press Enter?
+
+## Introduction
+
+When a user types **https://www.google.com** into a browser and presses Enter, many processes occur behind the scenes before the webpage appears on the screen. These processes involve networking protocols, security mechanisms, servers, and databases working together to deliver the requested content. This article explains each step of the journey.
+
+---
+
+# 1. DNS Request
+
+The first thing the browser needs is the IP address associated with **[www.google.com](http://www.google.com)**.
+
+Since humans prefer domain names while computers communicate using IP addresses, the browser performs a **DNS (Domain Name System) lookup**.
+
+The process is usually:
+
+1. The browser checks its DNS cache.
+2. The operating system checks its local DNS cache.
+3. If the address is not found, the request is sent to a DNS resolver (usually provided by the ISP or a public DNS service).
+4. The resolver queries DNS servers until it finds the authoritative server for the domain.
+5. The IP address of Google’s server is returned to the browser.
+
+Example:
+
+```
+www.google.com → 142.250.xxx.xxx
+```
+
+Now the browser knows where to send the request.
+
+---
+
+# 2. TCP/IP Connection
+
+Once the IP address is obtained, the browser establishes a connection using the TCP/IP protocol suite.
+
+### TCP Three-Way Handshake
+
+Before data can be exchanged, TCP performs a three-step handshake:
+
+1. Client sends SYN.
+2. Server replies with SYN-ACK.
+3. Client responds with ACK.
+
+```
+Client  ---- SYN ----> Server
+Client <--- SYN-ACK -- Server
+Client ---- ACK ----> Server
+```
+
+After the handshake is completed, a reliable connection is established.
+
+### IP Layer
+
+The Internet Protocol (IP) is responsible for routing packets from the client device to the destination server across multiple networks.
+
+---
+
+# 3. Firewall Inspection
+
+Before traffic reaches the server, it typically passes through one or more firewalls.
+
+A firewall:
+
+* Filters incoming and outgoing traffic.
+* Blocks unauthorized access.
+* Allows only approved ports and protocols.
+* Protects servers from malicious requests.
+
+For HTTPS traffic, port 443 is usually allowed.
+
+```
+Browser → Firewall → Server
+```
+
+If the request violates security rules, it may be blocked before reaching the application.
+
+---
+
+# 4. HTTPS/SSL Encryption
+
+Because the URL begins with **https://**, the browser must establish a secure connection.
+
+HTTPS uses **TLS (Transport Layer Security)**, commonly referred to as SSL/TLS.
+
+### TLS Handshake
+
+During the TLS handshake:
+
+1. The browser requests a secure connection.
+2. The server sends its SSL certificate.
+3. The browser verifies the certificate.
+4. Encryption keys are exchanged.
+5. A secure encrypted channel is established.
+
+Benefits:
+
+* Confidentiality
+* Integrity
+* Authentication
+
+This prevents attackers from reading or modifying transmitted data.
+
+---
+
+# 5. Load Balancer
+
+Large websites such as Google receive millions of requests every second.
+
+Instead of sending all traffic to a single server, requests first reach a **load balancer**.
+
+Responsibilities of a load balancer:
+
+* Distribute traffic across multiple servers.
+* Improve availability.
+* Prevent server overload.
+* Enable horizontal scaling.
+
+```
+                ┌───────── Server 1
+Client → LB ────┤
+                ├───────── Server 2
+                └───────── Server 3
+```
+
+The load balancer chooses the most appropriate server based on predefined algorithms.
+
+---
+
+# 6. Web Server
+
+The selected request arrives at a web server.
+
+Examples:
+
+* Nginx
+* Apache
+* Microsoft IIS
+
+The web server is responsible for:
+
+* Receiving HTTP requests.
+* Serving static files.
+* Managing HTTPS termination.
+* Forwarding dynamic requests to the application server.
+
+Example static resources:
+
+* HTML files
+* CSS files
+* JavaScript files
+* Images
+
+---
+
+# 7. Application Server
+
+If the request requires business logic, it is forwarded to the application server.
+
+Examples:
+
+* Node.js
+* Express.js
+* Django
+* Spring Boot
+* Ruby on Rails
+
+The application server:
+
+* Processes user requests.
+* Validates input.
+* Executes business rules.
+* Communicates with databases and external services.
+* Generates dynamic responses.
+
+Example:
+
+A search request sent to Google requires complex application logic to retrieve and rank search results.
+
+---
+
+# 8. Database
+
+Many applications need data stored permanently.
+
+The application server communicates with a database management system such as:
+
+* MySQL
+* PostgreSQL
+* MongoDB
+* Oracle
+
+The database may:
+
+* Store user accounts.
+* Store application data.
+* Retrieve requested information.
+* Update records when changes occur.
+
+Example SQL query:
+
+```sql
+SELECT * FROM users
+WHERE email = 'user@example.com';
+```
+
+The database returns the requested data to the application server.
+
+---
+
+# 9. Response Returned to the Browser
+
+After processing is complete:
+
+1. The database returns data to the application server.
+2. The application server generates a response.
+3. The web server sends the HTTP response.
+4. The response travels back through the Internet.
+5. The browser receives the data.
+
+```
+Database
+    ↑
+Application Server
+    ↑
+Web Server
+    ↑
+Browser
+```
+
+---
+
+# 10. Browser Rendering
+
+Finally, the browser renders the webpage.
+
+The browser:
+
+1. Parses HTML.
+2. Downloads CSS files.
+3. Downloads JavaScript files.
+4. Builds the DOM (Document Object Model).
+5. Builds the CSSOM.
+6. Creates the Render Tree.
+7. Calculates layout.
+8. Paints pixels on the screen.
+
+The user can now interact with the webpage.
+
+---
+
+# Summary
+
+The simple action of typing **https://www.google.com** and pressing Enter triggers a sophisticated sequence of events:
+
+1. DNS resolves the domain name.
+2. TCP/IP establishes network communication.
+3. Firewalls inspect traffic.
+4. HTTPS/TLS secures the connection.
+5. Load balancers distribute requests.
+6. Web servers receive requests.
+7. Application servers execute business logic.
+8. Databases provide data.
+9. Responses are returned to the browser.
+10. The browser renders the webpage for the user.
+
+This entire process usually happens within milliseconds, demonstrating the complexity and efficiency of modern web infrastructure.

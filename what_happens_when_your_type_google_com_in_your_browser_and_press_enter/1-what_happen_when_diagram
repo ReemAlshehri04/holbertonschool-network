@@ -1,0 +1,16 @@
+
+
+![alt text](diagram.png)
+
+
+FLOW SUMMARY:
+1. Browser → DNS Resolution (www.google.com → IP address)
+2. DNS → Firewall (checks if traffic is allowed)
+3. Firewall → HTTPS Port 443 (TLS/SSL encrypted connection)
+4. HTTPS → Load Balancer (distributes incoming traffic)
+5. Load Balancer → Web Server (serves static content)
+6. Web Server → Application Server (generates dynamic page)
+7. Application Server → Database (queries/fetches data)
+8. Database → Application Server (returns data)
+9. Application Server → Web Server (returns complete page)
+10. Web Server → Browser (serves the web page)
